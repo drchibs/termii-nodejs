@@ -1,1 +1,1 @@
-export {default} from 'src/termii'
+export {Termii} from 'src/termii'

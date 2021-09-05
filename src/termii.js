@@ -6,7 +6,7 @@ const status = require('./http_codes');
  * @param string sender_id
  * @param string api_key
  */
-export default class Termii {
+module.exports = class Termii {
 	constructor(sender_id, api_key) {
 		this.sender_id = sender_id;
 		this.api_key = api_key;
