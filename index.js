@@ -1,3 +1,3 @@
 module.exports ={
-    Termii: require('src/termii')
+    Termii: require('./src/termii')
 }
