@@ -1,0 +1,25 @@
+{
+  "name": "termii-nodejs",
+  "version": "1.0.0",
+  "description": "NodeJS package (SDK) for Termii API",
+  "main": "index.js",
+  "keywords": [
+    "termii",
+    "sdk",
+    "nodejs",
+    "sms"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drchibs/termii-nodejs.git"
+  },
+  "author": "@drchibs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drchibs/termii-nodejs/issues"
+  },
+  "homepage": "https://github.com/drchibs/termii-nodejs#readme"
+}
