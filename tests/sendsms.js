@@ -1,4 +1,4 @@
-const Termii = require('termii-nodejs');
+const Termii = require("termii-nodejs").Termii;
 
 const sender_id = "octopii";
 const api_key =
@@ -7,7 +7,5 @@ const api_key =
 const tel = "2348090897046";
 const sms = "Hello, World!";
 
-const termii = new Termii(sender_id, api_key);
-const req = termii.sendMessage(tel, sms);
-
-console.log(req);
+const termii = new Termii(sender_id, api_key).sendMessage(tel, sms);
+console.log(termii);

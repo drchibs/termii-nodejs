@@ -33,7 +33,8 @@ module.exports = class Termii {
                 channel: this.channel
             });
             //console.log(request);
-            return JSON.stringify(request);
+            let res = await JSON.stringify(request);
+            return res;
 
         } catch (error) {
             //console.error(error);
