@@ -1,1 +1,3 @@
-export {Termii} from 'src/termii'
+module.exports ={
+    Termii: require('src/termii')
+}
