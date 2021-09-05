@@ -1,6 +1,6 @@
 {
   "name": "termii-nodejs",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "NodeJS package (SDK) for Termii API",
   "main": "index.js",
   "keywords": [
