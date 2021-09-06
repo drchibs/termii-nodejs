@@ -33,6 +33,16 @@ const termii = new Termii({
 });
 ```
 
+## Basic Usage
+```javascript
+const request = termii.getBalance().then((res) => console.log(res));
+```
+There you go! 🍭
+
+# Documentation
+
+[Refer to the official Termii Docs](https://www.developers.termii.com/)
+
 # License
 
 [MIT](https://github.com/drchibs/termii-nodejs/blob/main/LICENSE)
