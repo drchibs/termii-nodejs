@@ -19,13 +19,20 @@ module.exports = class Termii {
 		this.base_url = "https://termii.com/api/";
 	}
 
-	async #sendRequest(body, method, url) {
+	async #sendRequest(body, endpoint, method = "GET") {
+		let url = this.base_url + endpoint;
+		let options = {
+			method,
+		};
 		try {
-			const request = await fetch(url, {
-				method: method,
-				body: body,
-				headers: { "Content-Type": "application/json" },
-			});
+			if (method === "GET") {
+				url += "?" + URLSearchParams(body).toString();
+			} else {
+				options.body = JSON.stringify(body);
+				options.headers = { "Content-Type": "application/json" };
+				//console.log(options);
+			}
+			const request = await fetch(url, options);
 			const response = await request.json();
 			return response;
 		} catch (err) {
@@ -42,18 +49,17 @@ module.exports = class Termii {
 	 * @return array
 	 */
 	async sendMessage(recipient, message) {
-		const http_method = "POST";
-		let url = this.base_url + "sms/send";
-		let body = JSON.stringify({
+		const endpoint = "sms/send";
+		let body = {
 			api_key: this.api_key,
 			to: recipient,
 			from: this.sender_id,
 			sms: message,
 			type: this.message_type,
 			channel: this.channel,
-		});
+		};
 
-		return this.#sendRequest(body, http_method, url);
+		return this.#sendRequest(body, endpoint, "POST");
 	}
 
 	/**
@@ -64,15 +70,14 @@ module.exports = class Termii {
 	 */
 
 	async sendMessageWithAutomatedNumber(recipient, message) {
-		const http_method = "POST";
-		let url = this.base_url + "sms/number/send";
-		let body = JSON.stringify({
+		const endpoint = "sms/number/send";
+		let body = {
 			api_key: this.api_key,
 			to: recipient,
 			sms: message,
-		});
+		};
 
-		return this.#sendRequest(body, http_method, url);
+		return this.#sendRequest(body, endpoint, "POST");
 	}
 
 	/**
@@ -86,17 +91,16 @@ module.exports = class Termii {
 	 */
 
 	async inAppToken(number) {
-		let url = this.base_url + "sms/otp/generate";
-		const http_method = "POST";
-		let body = JSON.stringify({
+		const endpoint = "sms/otp/generate";
+		let body = {
 			api_key: this.api_key,
 			pin_type: this.pin_type,
 			phone_number: number,
 			pin_attempts: this.pin_attempts,
 			pin_time_to_live: this.pin_time,
 			pin_length: this.pin_length,
-		});
-		return this.#sendRequest(body, http_method, url);
+		};
+		return this.#sendRequest(body, endpoint, "POST");
 	}
 
 	/**
@@ -112,9 +116,8 @@ module.exports = class Termii {
 	 * @returns
 	 */
 	async sendToken(number, pin_placeholder, message_text) {
-		const http_method = "POST";
-		let url = this.base_url + "sms/otp/send";
-		let body = JSON.stringify({
+		const endpoint = "sms/otp/send";
+		let body = {
 			api_key: this.api_key,
 			message_type: this.pin_type,
 			to: number,
@@ -125,22 +128,21 @@ module.exports = class Termii {
 			pin_length: this.pin_length,
 			pin_placeholder: pin_placeholder,
 			message_text: message_text,
-		});
+		};
 
-		return this.#sendRequest(body, http_method, url);
+		return this.#sendRequest(body, endpoint, "POST");
 	}
 
 	async sendVoiceToken(number) {
-		const http_method = "POST";
-		let url = this.base_url + "sms/otp/send/voice";
-		let body = JSON.stringify({
+		const endpoint = "sms/otp/send/voice";
+		let body = {
 			api_key: this.api_key,
 			phone_number: number,
 			pin_attempts: this.pin_attempts,
 			pin_time_to_live: this.pin_time,
 			pin_length: this.pin_length,
-		});
-		return this.#sendRequest(body, http_method, url);
+		};
+		return this.#sendRequest(body, endpoint, "POST");
 	}
 
 	/**
@@ -151,14 +153,13 @@ module.exports = class Termii {
 	 */
 
 	async sendVoiceCall(number, code) {
-		const http_method = "POST";
-		let url = this.base_url + "sms/otp/call";
-		let body = JSON.stringify({
+		const endpoint = "sms/otp/call";
+		let body = {
 			api_key: this.api_key,
 			phone_number: number,
 			code: code,
-		});
-		return this.#sendRequest(body, http_method, url);
+		};
+		return this.#sendRequest(body, endpoint, "POST");
 	}
 
 	/**
@@ -169,13 +170,29 @@ module.exports = class Termii {
 	 */
 
 	async verifyToken(pin_id, pin) {
-		const http_method = "POST";
-		let url = this.base_url + "sms/otp/verify";
-		let body = JSON.stringify({
+		const endpoint = "sms/otp/verify";
+		let body = {
 			api_key: this.api_key,
 			pin_id: pin_id,
 			pin: pin,
-		});
-		return this.#sendRequest(body, http_method, url);
+		};
+		return this.#sendRequest(body, endpoint, "POST");
 	}
-}
+
+	//Insights API
+
+    /**
+     * 
+     * The Balance API returns your total balance and balance information from your wallet, such as currency.
+     * 
+     * @returns 
+     */
+
+	async getBalance() {
+		const endpoint = "get-balance";
+		let body = {
+			api_key: this.api_key,
+		};
+		return this.#sendRequest(body, endpoint);
+	}
+};
