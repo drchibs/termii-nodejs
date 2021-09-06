@@ -11,7 +11,6 @@ module.exports = class Termii {
 		this.sender_id = options.sender_id;
 		this.api_key = options.api_key;
 		this.channel = (options && options.channel) || "generic";
-		this.message_type = (options && options.message_type) || "plain";
 		this.pin_attempts = (options && options.pin_attempts) || 3;
 		this.pin_time = (options && options.pin_time) || 1;
 		this.pin_length = (options && options.pin_length) || 4;
@@ -57,7 +56,7 @@ module.exports = class Termii {
 			to: recipient,
 			from: this.sender_id,
 			sms: message,
-			type: this.message_type,
+			type: 'plain',
 			channel: this.channel,
 		};
 
