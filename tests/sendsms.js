@@ -8,4 +8,6 @@ const tel = "2348090897046";
 const sms = "Hello, World!";
 
 const termii = new Termii(sender_id, api_key);
-const task = termii.sendMessage(tel, sms).then(res => console.log(res));
+//const task = termii.sendMessage(tel, sms).then(res => console.log(res));
+const res = termii.sendMessage(tel, sms);
+console.log(res)
