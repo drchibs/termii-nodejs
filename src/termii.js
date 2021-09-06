@@ -26,7 +26,9 @@ module.exports = class Termii {
 		};
 		try {
 			if (method === "GET") {
-				url += "?" + URLSearchParams(body).toString();
+                //string the body object into a GET url string
+                let geturl = new URLSearchParams(body);
+                url += "?"+ geturl.toString();
 			} else {
 				options.body = JSON.stringify(body);
 				options.headers = { "Content-Type": "application/json" };
@@ -36,7 +38,7 @@ module.exports = class Termii {
 			const response = await request.json();
 			return response;
 		} catch (err) {
-			//console.log(err);
+			console.log(err);
 			return err.message;
 		}
 	}
