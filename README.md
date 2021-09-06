@@ -17,15 +17,16 @@ npm i termii-nodejs
 
 ## Loading and configuring the module
 
-```bash
+```javascript
 const Termii = require("termii-nodejs").Termii;
 ```
 
-# Creating an Instance of the SDK:
+## Creating an Instance of the SDK:
 
 ```javascript
 const sender_id = "YOUR_SENDER_ID";
 const api_key = "YOUR_API_KEY";
+
 const termii = new Termii({
 	api_key: api_key,
 	sender_id: sender_id,
