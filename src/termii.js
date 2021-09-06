@@ -24,7 +24,7 @@ module.exports = class Termii {
 	 */
 	async sendMessage(recipient, message) {
 		try {
-			const request = await axios.post("sms/send", {
+			const request = await axios.post(this.base_url + "sms/send", {
 				api_key: this.api_key,
 				to: recipient,
 				from: this.sender_id,
