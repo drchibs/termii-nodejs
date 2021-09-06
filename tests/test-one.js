@@ -1,5 +1,5 @@
-//const Termii = require("termii-nodejs").Termii;
-const Termii = require("../src/termii");
+const Termii = require("termii-nodejs").Termii;
+//const Termii = require("../src/termii");
 const info = require("./info");
 
 const api_key = info.api_key;
