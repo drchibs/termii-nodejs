@@ -19,26 +19,11 @@ module.exports = class Termii {
 		this.base_url = "https://termii.com/api/";
 	}
 
-	/**
-	 * This API allows businesses send text messages to their customers across different messaging channels.
-	 * The API accepts JSON request payload and returns JSON encoded responses, and uses standard HTTP response codes.
-	 * @param string recipient (Ex: 23490126727)
-	 * @param string message
-	 * @return array
-	 */
-	async sendMessage(recipient, message) {
-		let url = this.base_url + "sms/send";
+	async #sendRequest(body, method, url) {
 		try {
 			const request = await fetch(url, {
-				method: "POST",
-				body: JSON.stringify({
-					api_key: this.api_key,
-					to: recipient,
-					from: this.sender_id,
-					sms: message,
-					type: this.message_type,
-					channel: this.channel,
-				}),
+				method: method,
+				body: body,
 				headers: { "Content-Type": "application/json" },
 			});
 			const response = await request.json();
@@ -47,6 +32,47 @@ module.exports = class Termii {
 			//console.log(err);
 			return err.message;
 		}
+	}
+
+	/**
+	 * This API allows businesses send text messages to their customers across different messaging channels.
+	 * The API accepts JSON request payload and returns JSON encoded responses, and uses standard HTTP response codes.
+	 * @param string recipient (Ex: 23490126727)
+	 * @param string message
+	 * @return array
+	 */
+	async sendMessage(recipient, message) {
+		const http_method = "POST";
+		let url = this.base_url + "sms/send";
+		let body = JSON.stringify({
+			api_key: this.api_key,
+			to: recipient,
+			from: this.sender_id,
+			sms: message,
+			type: this.message_type,
+			channel: this.channel,
+		});
+
+		return this.#sendRequest(body, http_method, url);
+	}
+
+	/**
+	 * This API allows businesses send messages to customers using Termii's auto-generated messaging numbers that adapt to customers location.
+	 * @param {string} to
+	 * @param {string} sms
+	 * @returns
+	 */
+
+	async sendMessageWithAutomatedNumber(recipient, message) {
+		const http_method = "POST";
+		let url = this.base_url + "sms/number/send";
+		let body = JSON.stringify({
+			api_key: this.api_key,
+			to: recipient,
+			sms: message,
+		});
+
+		return this.#sendRequest(body, http_method, url);
 	}
 
 	/**
@@ -61,25 +87,16 @@ module.exports = class Termii {
 
 	async inAppToken(number) {
 		let url = this.base_url + "sms/otp/generate";
-		try {
-			const request = await fetch(url, {
-				method: "POST",
-				body: JSON.stringify({
-					api_key: this.api_key,
-					pin_type: this.pin_type,
-					phone_number: number,
-					pin_attempts: this.pin_attempts,
-					pin_time_to_live: this.pin_time,
-					pin_length: this.pin_length,
-				}),
-				headers: { "Content-Type": "application/json" },
-			});
-			const response = await request.json();
-			return response;
-		} catch (err) {
-			//console.log(err);
-			return err.message;
-		}
+		const http_method = "POST";
+		let body = JSON.stringify({
+			api_key: this.api_key,
+			pin_type: this.pin_type,
+			phone_number: number,
+			pin_attempts: this.pin_attempts,
+			pin_time_to_live: this.pin_time,
+			pin_length: this.pin_length,
+		});
+		return this.#sendRequest(body, http_method, url);
 	}
 
 	/**
@@ -95,51 +112,70 @@ module.exports = class Termii {
 	 * @returns
 	 */
 	async sendToken(number, pin_placeholder, message_text) {
+		const http_method = "POST";
 		let url = this.base_url + "sms/otp/send";
-		try {
-			const request = await fetch(url, {
-				method: "POST",
-				body: JSON.stringify({
-					api_key: this.api_key,
-					message_type: this.pin_type,
-					to: number,
-					from: this.sender_id,
-					channel: this.channel,
-					pin_attempts: this.pin_attempts,
-					pin_time_to_live: this.pin_time,
-					pin_length: this.pin_length,
-					pin_placeholder: pin_placeholder,
-					message_text: message_text,
-				}),
-				headers: { "Content-Type": "application/json" },
-			});
-			const response = await request.json();
-			return response;
-		} catch (err) {
-			//console.log(err);
-			return err.message;
-		}
+		let body = JSON.stringify({
+			api_key: this.api_key,
+			message_type: this.pin_type,
+			to: number,
+			from: this.sender_id,
+			channel: this.channel,
+			pin_attempts: this.pin_attempts,
+			pin_time_to_live: this.pin_time,
+			pin_length: this.pin_length,
+			pin_placeholder: pin_placeholder,
+			message_text: message_text,
+		});
+
+		return this.#sendRequest(body, http_method, url);
 	}
 
 	async sendVoiceToken(number) {
+		const http_method = "POST";
 		let url = this.base_url + "sms/otp/send/voice";
-		try {
-			const request = await fetch(url, {
-				method: "POST",
-				body: JSON.stringify({
-					api_key: this.api_key,
-					phone_number: number,
-					pin_attempts: this.pin_attempts,
-					pin_time_to_live: this.pin_time,
-					pin_length: this.pin_length,
-				}),
-				headers: { "Content-Type": "application/json" },
-			});
-			const response = await request.json();
-			return response;
-		} catch (err) {
-			//console.log(err);
-			return err.message;
-		}
+		let body = JSON.stringify({
+			api_key: this.api_key,
+			phone_number: number,
+			pin_attempts: this.pin_attempts,
+			pin_time_to_live: this.pin_time,
+			pin_length: this.pin_length,
+		});
+		return this.#sendRequest(body, http_method, url);
 	}
-};
+
+	/**
+	 * The voice call API enables you to send messages from your application through our voice channel to a phone number. Only one-time-passwords (OTP) are allowed for now and these OTPs can not be verified using our Verify Token API.
+	 * @param {string} number Example: 23490126727
+	 * @param {number} code Example: 3344
+	 * @returns
+	 */
+
+	async sendVoiceCall(number, code) {
+		const http_method = "POST";
+		let url = this.base_url + "sms/otp/call";
+		let body = JSON.stringify({
+			api_key: this.api_key,
+			phone_number: number,
+			code: code,
+		});
+		return this.#sendRequest(body, http_method, url);
+	}
+
+	/**
+	 * Verify token API, checks tokens sent to customers and returns a response confirming the status of the token. A token can either be confirmed as verified or expired based on the timer set for the token.
+	 * @param {string} pin_id (Example: "c8dcd048-5e7f-4347-8c89-4470c3af0b")
+	 * @param {string} pin (Example: "195558")
+	 * @returns
+	 */
+
+	async verifyToken(pin_id, pin) {
+		const http_method = "POST";
+		let url = this.base_url + "sms/otp/verify";
+		let body = JSON.stringify({
+			api_key: this.api_key,
+			pin_id: pin_id,
+			pin: pin,
+		});
+		return this.#sendRequest(body, http_method, url);
+	}
+}
