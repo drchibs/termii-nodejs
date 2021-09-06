@@ -16,3 +16,5 @@ npm i termii-nodejs
 ```bash
 const Termii = require("termii-nodejs").Termii;
 ```
+# Contributing
+[MIT](https://github.com/drchibs/termii-nodejs/blob/main/LICENSE)
