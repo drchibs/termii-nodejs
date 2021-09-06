@@ -7,7 +7,12 @@
 
 # Installation
 
-You can install the package via composer:
+You can install the package via npm:
 ```bash
 npm i termii-nodejs
+```
+# Usage:
+## Loading and configuring the module
+```bash
+const Termii = require("termii-nodejs").Termii;
 ```
