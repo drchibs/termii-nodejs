@@ -26,9 +26,9 @@ module.exports = class Termii {
 		};
 		try {
 			if (method === "GET") {
-                //string the body object into a GET url string
-                let geturl = new URLSearchParams(body);
-                url += "?"+ geturl.toString();
+				//string the body object into a GET url string
+				let geturl = new URLSearchParams(body);
+				url += "?" + geturl.toString();
 			} else {
 				options.body = JSON.stringify(body);
 				options.headers = { "Content-Type": "application/json" };
@@ -92,12 +92,12 @@ module.exports = class Termii {
 	 * @returns object
 	 */
 
-	async inAppToken(number) {
+	async inAppToken(phone_number) {
 		const endpoint = "sms/otp/generate";
 		let body = {
 			api_key: this.api_key,
 			pin_type: this.pin_type,
-			phone_number: number,
+			phone_number: phone_number,
 			pin_attempts: this.pin_attempts,
 			pin_time_to_live: this.pin_time,
 			pin_length: this.pin_length,
@@ -117,12 +117,12 @@ module.exports = class Termii {
 	 * @param {string} message_text Ex: "Your pin is < 1234 >"
 	 * @returns
 	 */
-	async sendToken(number, pin_placeholder, message_text) {
+	async sendToken(phone_number, pin_placeholder, message_text) {
 		const endpoint = "sms/otp/send";
 		let body = {
 			api_key: this.api_key,
 			message_type: this.pin_type,
-			to: number,
+			to: phone_number,
 			from: this.sender_id,
 			channel: this.channel,
 			pin_attempts: this.pin_attempts,
@@ -135,11 +135,11 @@ module.exports = class Termii {
 		return this.#sendRequest(body, endpoint, "POST");
 	}
 
-	async sendVoiceToken(number) {
+	async sendVoiceToken(phone_number) {
 		const endpoint = "sms/otp/send/voice";
 		let body = {
 			api_key: this.api_key,
-			phone_number: number,
+			phone_number: phone_number,
 			pin_attempts: this.pin_attempts,
 			pin_time_to_live: this.pin_time,
 			pin_length: this.pin_length,
@@ -154,11 +154,11 @@ module.exports = class Termii {
 	 * @returns
 	 */
 
-	async sendVoiceCall(number, code) {
+	async sendVoiceCall(phone_number, code) {
 		const endpoint = "sms/otp/call";
 		let body = {
 			api_key: this.api_key,
-			phone_number: number,
+			phone_number: phone_number,
 			code: code,
 		};
 		return this.#sendRequest(body, endpoint, "POST");
@@ -183,12 +183,12 @@ module.exports = class Termii {
 
 	//Insights API
 
-    /**
-     * 
-     * The Balance API returns your total balance and balance information from your wallet, such as currency.
-     * 
-     * @returns 
-     */
+	/**
+	 *
+	 * The Balance API returns your total balance and balance information from your wallet, such as currency.
+	 *
+	 * @returns
+	 */
 
 	async getBalance() {
 		const endpoint = "get-balance";
@@ -196,5 +196,103 @@ module.exports = class Termii {
 			api_key: this.api_key,
 		};
 		return this.#sendRequest(body, endpoint);
+	}
+
+	/**
+	 * The search API allows businesses verify phone numbers and automatically detect their status as well as current network. It also tells if the number has activated the do-not-disturb settings.
+	 * @param {string} phone_number
+	 * @returns
+	 */
+	async search(phone_number) {
+		const endpoint = "check/dnd";
+		let body = {
+			api_key: this.api_key,
+			phone_number: phone_number,
+		};
+		return this.#sendRequest(body, endpoint);
+	}
+
+	/**
+	 * The status API allows businesses to detect if a number is fake or has ported to a new network.
+	 * @param {string} phone_number
+	 * @param {string} country_code Example: NG
+	 * @returns
+	 */
+
+	async getStatus(phone_number, country_code) {
+		const endpoint = "insight/number/query";
+		let body = {
+			api_key: this.api_key,
+			phone_number: phone_number,
+			country_code: country_code,
+		};
+		return this.#sendRequest(body, endpoint);
+	}
+
+	/**
+	 * This Inbox API returns reports for messages sent across the sms, voice & whatsapp channels. Reports can either display all messages on termii or a single message.
+	 * @returns
+	 */
+	async getHistory() {
+		const endpoint = "sms/inbox";
+		let body = {
+			api_key: this.api_key,
+		};
+		return this.#sendRequest(body, endpoint);
+	}
+
+	//Sender API
+
+	/**
+	 * A Sender ID is the name or number that identifies the sender of an SMS message. This API allows businesses retrieve the status of all registered sender ID through GET request type.
+	 * @returns
+	 */
+	async getSenderId() {
+		const endpoint = "sender-id";
+		let body = {
+			api_key: this.api_key,
+		};
+		return this.#sendRequest(body, endpoint);
+	}
+
+	/**
+	 * This API allows businesses request registration of sender ID through POST request type.
+	 * @param {string} sender_id Represents the ID of the sender which can be alphanumeric or numeric. (Example:Nickelodeon)
+	 * @param {string} usecase A sample of the type of message sent. (Example: Your OTP code is zxsds)
+	 * @param {string} company Represents the name of the company with the sender ID.
+	 * @returns
+	 */
+	async requestSenderId(sender_id, usecase, company) {
+		const endpoint = "sender-id/request";
+		let body = {
+			api_key: this.api_key,
+			sender_id: sender_id,
+			usecase: usecase,
+			company: company,
+		};
+		return this.#sendRequest(body, endpoint, "POST");
+	}
+
+	//Templates API
+
+	/**
+	 * Templates API helps businesses set a template for the one-time-passwords (pins) sent to their customers via whatsapp or sms.
+	 * @param {string} phone_number
+	 * @param {string} device_id
+	 * @param {string} template_id
+	 * @param {object} data
+	 * @returns
+	 */
+
+	async sendTemplate(phone_number, device_id, template_id, data) {
+		const endpoint = "send/template";
+		let body = {
+			phone_number: phone_number,
+			device_id: device_id,
+			template_id: template_id,
+			api_key: this.api_key,
+			data: data,
+		};
+		return this.#sendRequest(body, endpoint, "POST");
 	}
 };
