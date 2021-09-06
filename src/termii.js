@@ -1,4 +1,4 @@
-const axios = require("axios").default;
+const fetch = require("node-fetch");
 const status = require("./http_codes");
 /**
  * Termii SDK for NodeJS
@@ -25,22 +25,56 @@ module.exports = class Termii {
 	async sendMessage(recipient, message) {
 		let url = this.base_url + "sms/send";
 		try {
-			const request = await axios.post(url, {
-				api_key: this.api_key,
-				to: recipient,
-				from: this.sender_id,
-				sms: message,
-				type: this.message_type,
-				channel: this.channel
+			const request = await fetch(url, {
+				method: "POST",
+				body: JSON.stringify({
+					api_key: this.api_key,
+					to: recipient,
+					from: this.sender_id,
+					sms: message,
+					type: this.message_type,
+					channel: this.channel,
+				}),
+                headers: { 'Content-Type': 'application/json' }
 			});
-			if (request) {
-				console.log(request);
-				let res = JSON.stringify(request);
-				return res;
-			}
-		} catch (error) {
-			//console.error(error);
-			return JSON.stringify(status(error.status));
+			const response = await request.json();
+			return response;
+		} catch (err) {
+			//console.log(err);
+			return err.message;
+		}
+	}
+
+    /**
+     * This API returns OTP codes in JSON format which can be used within any web or mobile app. Tokens are numeric or alpha-numeric codes generated to authenticate login requests and verify customer transactions.
+     * @param {string} phone_number 
+     * @param {enum} pin_type  ALPHANUMERIC or NUMERIC
+     * @param {number} pin_attempts 
+     * @param {number} pin_time  (in minutes 1-60)
+     * @param {number} pin_length 
+     * @returns object 
+     */
+
+    async inAppToken(number, pin_type="ALPHANUMERIC",  attempts=3, pin_time=1, pin_length=4) {
+		let url = this.base_url + "sms/otp/generate";
+		try {
+			const request = await fetch(url, {
+				method: "POST",
+				body: JSON.stringify({
+					api_key: this.api_key,
+					pin_type: pin_type,
+					phone_number: number,
+					pin_attempts: attempts,
+					pin_time_to_live: pin_time,
+					pin_length: pin_length
+				}),
+                headers: { 'Content-Type': 'application/json' }
+			});
+			const response = await request.json();
+			return response;
+		} catch (err) {
+			//console.log(err);
+			return err.message;
 		}
 	}
 };
