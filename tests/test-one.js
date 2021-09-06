@@ -36,11 +36,11 @@ console.log('Get Balance');
 const task6 = termii.getBalance().then((res) => console.log(res));
 
 console.log('Get Status');
-const task6 = termii.getStatus(tel, 'NG').then((res) => console.log(res));
+const task7 = termii.getStatus(tel, 'NG').then((res) => console.log(res));
 
 console.log('Get History');
-const task6 = termii.getHistory().then((res) => console.log(res));
+const task8 = termii.getHistory().then((res) => console.log(res));
 
 console.log('Get Sender ID');
-const task6 = termii.getSenderId().then((res) => console.log(res));
+const task9 = termii.getSenderId().then((res) => console.log(res));
 
