@@ -33,12 +33,11 @@ module.exports = class Termii {
 				type: this.message_type,
 				channel: this.channel
 			});
-			if (request.status === 200) {
+			if (request) {
 				//console.log(request);
 				let res = JSON.stringify(request);
 				return res;
 			}
-			return JSON.stringify(status(request.status));
 		} catch (error) {
 			//console.error(error);
 			return JSON.stringify(status(error.status));

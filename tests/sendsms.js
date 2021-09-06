@@ -7,5 +7,5 @@ const api_key =
 const tel = "2348090897046";
 const sms = "Hello, World!";
 
-const termii = new Termii(sender_id, api_key).sendMessage(tel, sms);
-console.log(termii);
+const termii = new Termii(sender_id, api_key);
+const task = termii.sendMessage(tel, sms).then(res => console.log(res));
