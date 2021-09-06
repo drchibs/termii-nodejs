@@ -43,6 +43,24 @@ There you go! 🍭
 
 [Refer to the official Termii Docs](https://www.developers.termii.com/)
 
+# Advanced Usage
+## Options
+You can have full control when you create a new instance of the __Termii__ class
+Not all options are needed for every request, refer to the Docs and see what is required for the resources you need.
+
+```javascript
+new Termii({
+	api_key: api_key,
+	sender_id: sender_id,
+	channel: "generic",
+	message_type: "plain",
+	pin_attempts: 2,
+	pin_time: 1,
+	pin_length: 6,
+	pin_type: "NUMERIC"
+});
+```
+
 # License
 
 [MIT](https://github.com/drchibs/termii-nodejs/blob/main/LICENSE)
