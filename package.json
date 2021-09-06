@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/drchibs/termii-nodejs#readme",
   "dependencies": {
-    "axios": "^0.21.3",
     "node-fetch": "2.0",
     "termii-nodejs": "^1.0.0"
   }
