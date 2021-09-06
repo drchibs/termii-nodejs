@@ -83,6 +83,13 @@ This is a list of methods available in this SDK according to the official APIs
 
 - `sendTemplate(phone_number, device_id, template_id, data)`
 
+## Campaign API
+
+I was breaking things and moving fast and I ended up moving too fast🌚
+
+I will probably come back and work on this sometime later.
+
+
 
 # Advanced Usage
 ## Options
