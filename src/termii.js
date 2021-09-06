@@ -24,7 +24,6 @@ module.exports = class Termii {
 	 */
 	async sendMessage(recipient, message) {
 		let url = this.base_url + "sms/send";
-        console.log(url);
 		try {
 			const request = await axios.post(url, {
 				api_key: this.api_key,
@@ -32,16 +31,16 @@ module.exports = class Termii {
 				from: this.sender_id,
 				sms: message,
 				type: this.message_type,
-				channel: this.channel,
+				channel: this.channel
 			});
 			if (request.status === 200) {
-				console.log(request);
+				//console.log(request);
 				let res = JSON.stringify(request);
 				return res;
 			}
-			return status(request.status);
+			return JSON.stringify(status(request.status));
 		} catch (error) {
-			console.error(error);
+			//console.error(error);
 			return JSON.stringify(status(error.status));
 		}
 	}
