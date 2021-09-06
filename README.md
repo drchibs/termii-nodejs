@@ -41,12 +41,12 @@ There you go! 🍭
 
 # Documentation
 
-[Refer to the official Termii Docs](https://www.developers.termii.com/)
+👉🏿 [Refer to the official Termii Docs](https://www.developers.termii.com/)
 
 # Advanced Usage
 ## Options
 You can have full control when you create a new instance of the __Termii__ class
-Not all options are needed for every request, refer to the Docs and see what is required for the resources you need.
+Not all options are needed for every request, [refer to the Docs](https://www.developers.termii.com/) and see what is required for the resources you need.
 
 ```javascript
 new Termii({
