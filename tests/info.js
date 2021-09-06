@@ -1,5 +1,4 @@
-const sender_id = "octopii";
-const api_key =
-	"TLPMOToGfquQFrPyIddzOS8p5eIWdIK9w8B98ru7yAW3pHoOY80cdWUIG7NpJG";
+const sender_id = "insert_sender_id";
+const api_key ="insert_api_key";
 
 module.exports = { sender_id, api_key };
