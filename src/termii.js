@@ -15,7 +15,7 @@ module.exports = class Termii {
 		this.pin_time = (options && options.pin_time) || 1;
 		this.pin_length = (options && options.pin_length) || 4;
 		this.pin_type = (options && options.pin_type) || "NUMERIC";
-		this.base_url = "https://termii.com/api/";
+		this.base_url = "https://api.ng.termii.com/api/";
 	}
 
 	async #sendRequest(body, endpoint, method = "GET") {
