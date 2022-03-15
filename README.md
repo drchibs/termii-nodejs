@@ -85,9 +85,8 @@ This is a list of methods available in this SDK according to the official APIs
 
 ## Campaign API
 
-I was breaking things and moving fast and I ended up moving too fast🌚
 
-I will probably come back and work on this sometime later.
+Not Yet Available.
 
 
 
